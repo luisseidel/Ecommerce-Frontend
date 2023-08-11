@@ -11,7 +11,7 @@
     <tbody>
         <tr *ngFor="let product of products">
             <td>{{product.name}}</td>
-            <td>{{product.email}}</td>
+            <td>{{product.price}}</td>
             <td style="white-space: nowrap">
                 <a routerLink="edit/{{product.id}}" class="btn btn-sm btn-primary me-1">Edit</a>
                 <button (click)="deleteProduct(product.id)" class="btn btn-sm btn-danger btn-delete-product" [disabled]="product.isDeleting">
