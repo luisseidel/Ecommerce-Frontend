@@ -1,13 +1,12 @@
 ﻿import { Component } from '@angular/core';
-
-import { User } from '@app/_models';
 import { AccountService } from '@app/_services';
+import { User } from '@app/_models';
 
 @Component({ templateUrl: 'home.component.html' })
 export class HomeComponent {
-    user: User | null;
+    loggedUser?: User | null;
 
     constructor(private accountService: AccountService) {
-        this.user = this.accountService.userValue;
+        this.accountService.userSubject.subscribe(x => this.loggedUser = x);
     }
 }

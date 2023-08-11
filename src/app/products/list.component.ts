@@ -2,47 +2,41 @@
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AccountService, AlertService } from '@app/_services';
-import { User } from '@app/_models';
+import { Product } from '@app/_models';
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit {
-    users?: any[];
-    loggedUser?: User | null;
-    user?: null;
+    products?: any[];
 
     constructor(
         private accountService: AccountService, 
         private router: Router,
         private alertService: AlertService
-    ) {
-        this.accountService.userSubject.subscribe(x => this.loggedUser = x);
-    }
+    ) {}
 
     ngOnInit() {
         this.accountService.getAll()
             .pipe(first())
-            .subscribe(users => {
-                this.users = users
-                var user = this.users?.find(x => x.id === this.loggedUser!.id);
-                user.sameUser = (user != null); 
+            .subscribe(products => {
+                this.products = products 
             });
     }
 
-    deleteUser(id: string) {
+    deleteProduct(id: string) {
         this.alertService.clear();
-        const user = this.users!.find(x => x.id === id);
-        user.isDeleting = true;
+        const product = this.products!.find(x => x.id === id);
+        product.isDeleting = true;
         this.accountService.delete(id)
             .pipe(first())
             .subscribe({
                 next: () => {
-                    this.accountService.getAll().pipe(first()).subscribe(users => this.users = users);
-                    this.alertService.success('User Deleted', { keepAfterRouteChange: true });
-                    this.router.navigateByUrl('/users');
+                    this.accountService.getAll().pipe(first()).subscribe(products => this.products = products);
+                    this.alertService.success('Product Deleted', { keepAfterRouteChange: true });
+                    this.router.navigateByUrl('/products');
                 },
                 error: error => {
                     this.alertService.error(error);
-                    user.isDeleting = false;
+                    product.isDeleting = false;
                 }
             })
     }

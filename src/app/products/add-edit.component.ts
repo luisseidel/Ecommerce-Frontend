@@ -2,7 +2,7 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { AccountService, AlertService } from '@app/_services';
+import { ProductService, AlertService } from '@app/_services';
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent implements OnInit {
@@ -17,7 +17,7 @@ export class AddEditComponent implements OnInit {
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private accountService: AccountService,
+        private productService: ProductService,
         private alertService: AlertService
     ) { }
 
@@ -27,9 +27,7 @@ export class AddEditComponent implements OnInit {
         // form with validation rules
         this.form = this.formBuilder.group({
             name: ['', Validators.required],
-            email: ['', Validators.required],
-            // password only required in add mode
-            password: ['', [Validators.minLength(6), ...(!this.id ? [Validators.required] : [])]]
+            price: ['', Validators.required],
         });
 
         this.title = 'Add User';
@@ -37,10 +35,9 @@ export class AddEditComponent implements OnInit {
             // edit mode
             this.title = 'Edit User';
             this.loading = true;
-            this.accountService.getById(this.id)
+            this.productService.getById(this.id)
                 .pipe(first())
                 .subscribe(x => {
-                    x.password = undefined;
                     this.form.patchValue(x);
                     this.loading = false;
                 });
@@ -62,25 +59,25 @@ export class AddEditComponent implements OnInit {
         }
 
         this.submitting = true;
-        this.saveUser()
+        this.saveProduct()
             .pipe(first())
             .subscribe({
                 next: () => {
-                    this.alertService.success('User saved', { keepAfterRouteChange: true });
-                    this.router.navigateByUrl('/users');
+                    this.alertService.success('Product saved!', { keepAfterRouteChange: true });
+                    this.router.navigateByUrl('/products');
                 },
                 error: error => {
-                    this.alertService.error("Erro ao salvar usuário!");
+                    this.alertService.error("Erro ao salvar produto!");
                     console.log(error);
                     this.submitting = false;
                 }
             })
     }
 
-    private saveUser() {
+    private saveProduct() {
         // create or update user based on id param
         return this.id
-            ? this.accountService.update(this.id!, this.form.value)
-            : this.accountService.register(this.form.value);
+            ? this.productService.update(this.id!, this.form.value)
+            : this.productService.create(this.form.value);
     }
 }

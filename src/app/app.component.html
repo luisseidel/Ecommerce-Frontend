@@ -1,8 +1,11 @@
-﻿<nav class="navbar navbar-expand navbar-dark bg-dark px-3" *ngIf="user">
-    <div class="navbar-nav">
+﻿<nav class="navbar navbar-expand navbar-dark bg-dark px-3 d-flex justify-content-between" *ngIf="user">
+    <div class="navbar-nav text-left">
         <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
         <a class="nav-item nav-link" routerLink="/users" routerLinkActive="active">Users</a>
-        <button class="btn btn-link nav-item nav-link" (click)="logout()">Logout</button>
+        <a class="nav-item nav-link" routerLink="/products" routerLinkActive="active">Products</a>
+    </div>
+    <div class="navbar-nav text-right">
+        <button class="btn btn-link nav-item nav-link text-left" (click)="logout()">Logout</button>
     </div>
 </nav>
 
@@ -14,5 +17,5 @@
 
 
 <div class="text-center mt-4">
-    
+
 </div>

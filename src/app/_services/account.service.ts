@@ -5,12 +5,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
-import { User } from '@app/_models';
-import { UserDTO } from '@app/_models';
+import { User, UserDTO } from '@app/_models';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
-    private userSubject: BehaviorSubject<User | null>;
+    public userSubject: BehaviorSubject<User | null>;
     public user: Observable<User | null>;
 
     constructor(
@@ -29,8 +28,10 @@ export class AccountService {
         return this.http.post<User>(`${environment.apiUrl}/auth/authenticate`, { email, password })
             .pipe(map(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('token', JSON.stringify(user));
+                localStorage.setItem('token', JSON.stringify(user.token));
+                localStorage.setItem('user', JSON.stringify(user));
                 this.userSubject.next(user);
+
                 return user;
             }));
     }
