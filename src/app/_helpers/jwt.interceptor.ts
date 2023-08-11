@@ -23,8 +23,6 @@ export class JwtInterceptor implements HttpInterceptor {
         }
         request.headers.append("Access-Control-Allow-Origin", "*");
 
-        console.log(request);
-
         return next.handle(request);
     }
 }
