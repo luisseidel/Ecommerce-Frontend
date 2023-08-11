@@ -9,7 +9,7 @@
 ```shell 
 sudo apt update && sudo apt install nodejs
 ```
-* Ou fazer upgrade para a versão 18
+* Ou fazer upgrade para a versão mais nova
 ```shell 
 sudo npm cache clean -f && sudo npm install -g n && sudo n stable
 ```
