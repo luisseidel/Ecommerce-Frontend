@@ -5,10 +5,11 @@
 2. Esse projeto possui as telas de CRUD para gerenciamento de Usuários e Produtos.
 
 ## Get Started
-1. Instalar o Node.Js caso não tenha, ou fazer upgrade para a versão 18:
+1. Instalar o Node.Js caso não tenha:
 ```shell 
 sudo apt update && sudo apt install nodejs
 ```
+* Ou fazer upgrade para a versão 18
 ```shell 
 sudo npm cache clean -f && sudo npm install -g n && sudo n stable
 ```
